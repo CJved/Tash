@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Beautiful</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet"> <!-- Google Font -->
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: red;
+            font-family: 'Dancing Script', cursive; /* Use the new font */
+            font-size: 1.5em; /* Reduced font size */
+            overflow: hidden;
+            text-align: center; /* Center the text */
+        }
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0; /* Position hearts at the top */
+        }
+        .heart {
+            position: absolute;
+            font-size: 30px; /* Adjust the size of the heart character */
+            line-height: 1; /* Adjust line-height for better alignment */
+            transform: translate(-50%, -50%); /* Center the heart */
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 2em;
+            color: white;
+            background-color: red;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: darkred;
+        }
+        .message {
+            display: none; /* Hide the message initially */
+        }
+        .floating-text {
+            position: fixed;
+            color: white;
+            font-size: 1.2em;
+            opacity: 0; /* Start invisible */
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        Hey Tash! Just wanted to remind you that you are an amazing person. Your sense of humor always makes me laugh 😂, and you have this amazing ability to brighten up any day ☀️. I appreciate how genuine and supportive you are—it's a rare quality! 🙌 Keep being you, and continue singing as well. Hope this puts a smile on your face! 😊
+    </div>
+    <button class="button" onclick="showMessage()">😊 Press Me</button>
+    <div class="hearts"></div>
+
+    <script>
+        const heartsContainer = document.querySelector('.hearts');
+        const message = document.querySelector('.message');
+        const button = document.querySelector('.button');
+        
+        const floatingTexts = [
+            "You're cute! 😊",
+            "You deserve the world! 🌍",
+            "See you soon! 👋",
+            "Study hard! 📚"
+        ];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.textContent = '❤'; // Use heart character
+            heart.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+            heart.style.top = `${Math.random() * 100}vh`; // Random vertical position
+            heartsContainer.appendChild(heart);
+
+            // Animate the heart floating upwards and fading out
+            heart.animate([
+                { transform: 'translate(-50%, -50%) translateY(0)', opacity: 1 },
+                { transform: 'translate(-50%, -50%) translateY(-100vh)', opacity: 0 }
+            ], {
+                duration: 4000,
+                easing: 'ease-in',
+                fill: 'forwards'
+            });
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        function createFloatingText() {
+            const text = document.createElement('div');
+            text.classList.add('floating-text');
+            text.textContent = floatingTexts[Math.floor(Math.random() * floatingTexts.length)];
+            text.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+            text.style.top = `${Math.random() * 100}vh`; // Random vertical position
+            document.body.appendChild(text);
+
+            // Animate the floating text
+            text.animate([
+                { transform: 'translateY(0)', opacity: 1 },
+                { transform: 'translateY(-100vh)', opacity: 0 }
+            ], {
+                duration: 4000,
+                easing: 'ease-in',
+                fill: 'forwards'
+            });
+
+            setTimeout(() => {
+                text.remove();
+            }, 4000);
+        }
+
+        function showMessage() {
+            message.style.display = 'block'; // Show the message
+            button.style.display = 'none'; // Hide the button
+            
+            // Create hearts and floating text only after the button is pressed
+            for (let i = 0; i < 10; i++) {
+                createHeart(); // Create initial hearts
+                createFloatingText(); // Create initial floating texts
+            }
+
+            // Continue creating hearts and floating text at set intervals
+            setInterval(createHeart, 300);
+            setInterval(createFloatingText, 1000); // Create floating text every second
+        }
+    </script>
+</body>
+</html>
+
+
+
